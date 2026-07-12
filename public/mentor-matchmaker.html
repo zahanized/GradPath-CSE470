@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GradPath - Industry Mentor Matchmaker</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#222}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:#0f766e;color:#fff;padding:24px}
+.sidebar a{color:#fff;text-decoration:none;display:block;margin:14px 0}
+.main{margin-left:260px;padding:30px}
+.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:20px}
+input,select,button{padding:10px;border-radius:8px;border:1px solid #ccc}
+button{background:#0f766e;color:#fff;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:20px}
+.mentor{border:1px solid #ddd;border-radius:10px;padding:16px}
+.badge{display:inline-block;background:#dcfce7;color:#166534;padding:4px 8px;border-radius:6px;font-size:12px}
+.score{font-size:22px;font-weight:bold;color:#0f766e}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<h2>GradPath</h2>
+<p>Feature #2</p>
+<a href="index.html">Home</a>
+<a href="mentor-hub.html">Mentor Hub</a>
+</div>
+<div class="main">
+<h1>Industry-Focused Mentor Matchmaker</h1>
+<div class="card">
+<div class="filters">
+<select id="goal">
+<option>Software Engineer</option>
+<option>Data Analyst</option>
+<option>UI Designer</option>
+<option>Cybersecurity</option>
+</select>
+<select id="industry">
+<option>FinTech</option>
+<option>AI</option>
+<option>Healthcare</option>
+<option>EdTech</option>
+</select>
+<select id="exp">
+<option value="0">Any Experience</option>
+<option value="2">2+</option>
+<option value="5">5+</option>
+<option value="8">8+</option>
+</select>
+<button onclick="match()">Find Mentors</button>
+</div>
+<div id="results" class="grid"></div>
+</div>
+</div>
+<script>
+const mentors=[
+{name:"Sarah Ahmed",goal:"Software Engineer",industry:"AI",exp:6,company:"Google",title:"Senior SWE",skills:["Java","Node","React"]},
+{name:"Rakib Hasan",goal:"Software Engineer",industry:"FinTech",exp:4,company:"bKash",title:"Backend Engineer",skills:["Java","Spring","SQL"]},
+{name:"Nabila Noor",goal:"Data Analyst",industry:"FinTech",exp:5,company:"Mastercard",title:"Data Analyst",skills:["Python","SQL","Power BI"]},
+{name:"Ayan Khan",goal:"UI Designer",industry:"EdTech",exp:7,company:"10 Minute School",title:"Product Designer",skills:["Figma","UX","Design"]},
+{name:"Tanvir Islam",goal:"Cybersecurity",industry:"Healthcare",exp:9,company:"Cisco",title:"Security Engineer",skills:["SOC","Network","Linux"]}
+];
+function match(){
+let g=goal.value,i=industry.value,e=+exp.value;
+let out=document.getElementById("results");out.innerHTML="";
+let arr=mentors.map(m=>{
+let s=0;
+if(m.goal===g)s+=50;
+if(m.industry===i)s+=30;
+if(m.exp>=e)s+=20;
+return {...m,score:s};
+}).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+if(!arr.length){out.innerHTML="<p>No mentors found.</p>";return;}
+arr.forEach(m=>{
+out.innerHTML+=`
+<div class="mentor">
+<div class="badge">${m.score}% Match</div>
+<h3>${m.name}</h3>
+<p><b>${m.title}</b></p>
+<p>${m.company}</p>
+<p>Industry: ${m.industry}</p>
+<p>Experience: ${m.exp} years</p>
+<p>Skills: ${m.skills.join(", ")}</p>
+<div class="score">${m.score}%</div>
+<button onclick="alert('Mentorship request sent to ${m.name}!')">Request Mentorship</button>
+</div>`;
+});
+}
+match();
+</script>
+</body>
+</html>
