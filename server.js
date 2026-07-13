@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const bookingFile = './bookingData.json'; //added by rabeya//
 const app = express();
 const PORT = 8000;
 
@@ -25,6 +26,141 @@ app.post('/api/verify-alumni', (req, res) => {
   } catch (error) {
     return res.status(500).json({ verified: false, message: "Server configuration error." });
   }
+});
+
+//added by rabeya//
+// ================================
+// Interview Booking APIs
+// ================================
+
+// Get all bookings
+app.get('/api/bookings', (req, res) => {
+
+    try{
+
+        const data = fs.readFileSync(bookingFile);
+
+        const bookings = JSON.parse(data);
+
+        res.json(bookings);
+
+    }
+
+    catch(error){
+
+        res.status(500).json({
+            message:"Could not load bookings."
+        });
+
+    }
+
+});
+
+
+
+// Book a new interview slot
+app.get("/api/bookings", (req, res) => {
+
+    try {
+
+        const bookings = JSON.parse(
+            fs.readFileSync(bookingFile)
+        );
+
+        res.json(bookings);
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+            message: "Unable to load bookings."
+        });
+
+    }
+
+});
+
+app.post('/api/book-slot',(req,res)=>{
+
+    const{
+
+        mentor,
+
+        time
+
+    }=req.body;
+
+    try{
+
+        const data=fs.readFileSync(bookingFile);
+
+        const bookings=JSON.parse(data);
+
+        const alreadyBooked=bookings.find(
+
+            booking=>
+
+            booking.mentor===mentor &&
+
+            booking.time===time
+
+        );
+
+        if(alreadyBooked){
+
+            return res.status(400).json({
+
+                success:false,
+
+                message:"This slot has already been booked."
+
+            });
+
+        }
+
+        const newBooking={
+
+            id:Date.now(),
+
+            mentor,
+
+            time
+
+        };
+
+        bookings.push(newBooking);
+
+        fs.writeFileSync(
+
+            bookingFile,
+
+            JSON.stringify(bookings,null,2)
+
+        );
+
+        res.json({
+
+            success:true,
+
+            message:"Interview booked successfully."
+
+        });
+
+    }
+
+    catch(error){
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Server error."
+
+        });
+
+    }
+
 });
 
 app.listen(PORT, () => {
