@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alumni Career Profile Directory</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f7fb;
+        }
+
+        .side {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 220px;
+            background: #1e3a8a;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .side a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 24px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        input,
+        select {
+            padding: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #dbeafe;
+        }
+
+        .badge {
+            background: #dcfce7;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="side">
+        <h2>GradPath</h2>
+        <a href="index.html">Home</a>
+    </div>
+
+    <div class="main">
+        <div class="card">
+            <h2>Alumni Career Profile Directory</h2>
+
+            <div class="filters">
+                <input id="name" placeholder="Name">
+
+                <select id="year">
+                    <option value="">All Years</option>
+                    <option>2019</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                    <option>2022</option>
+                    <option>2023</option>
+                </select>
+
+                <select id="major">
+                    <option value="">All Majors</option>
+                    <option>CSE</option>
+                    <option>EEE</option>
+                    <option>BBA</option>
+                </select>
+
+                <input id="company" placeholder="Employer">
+                <input id="job" placeholder="Job Title">
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Year</th>
+                        <th>Major</th>
+                        <th>Employer</th>
+                        <th>Job</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="rows"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            {
+                name: "Sarah Ahmed",
+                year: "2020",
+                major: "CSE",
+                company: "Google",
+                job: "Software Engineer"
+            },
+            {
+                name: "Rakib Hasan",
+                year: "2021",
+                major: "CSE",
+                company: "bKash",
+                job: "Backend Engineer"
+            },
+            {
+                name: "Nabila Noor",
+                year: "2019",
+                major: "BBA",
+                company: "Mastercard",
+                job: "Business Analyst"
+            },
+            {
+                name: "Tanvir Islam",
+                year: "2022",
+                major: "EEE",
+                company: "Samsung",
+                job: "Embedded Engineer"
+            },
+            {
+                name: "Ayan Khan",
+                year: "2023",
+                major: "CSE",
+                company: "Microsoft",
+                job: "Cloud Engineer"
+            }
+        ];
+
+        function render() {
+            let n = name.value.toLowerCase();
+            let y = year.value;
+            let m = major.value;
+            let c = company.value.toLowerCase();
+            let j = job.value.toLowerCase();
+
+            rows.innerHTML = "";
+
+            let filtered = data.filter(x =>
+                (!n || x.name.toLowerCase().includes(n)) &&
+                (!y || x.year == y) &&
+                (!m || x.major == m) &&
+                (!c || x.company.toLowerCase().includes(c)) &&
+                (!j || x.job.toLowerCase().includes(j))
+            );
+
+            if (!filtered.length) {
+                rows.innerHTML =
+                    "<tr><td colspan='6'>No alumni found.</td></tr>";
+                return;
+            }
+
+            filtered.forEach(x => {
+                rows.innerHTML += `
+                    <tr>
+                        <td>${x.name}</td>
+                        <td>${x.year}</td>
+                        <td>${x.major}</td>
+                        <td>${x.company}</td>
+                        <td>${x.job}</td>
+                        <td>
+                            <span class="badge">Verified</span>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        document.querySelectorAll("input, select").forEach(element => {
+            element.oninput = render;
+        });
+
+        render();
+    </script>
+
+</body>
+</html>
