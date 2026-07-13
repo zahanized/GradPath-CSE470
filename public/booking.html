@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Slot Booking</title>
+
+    <link rel="stylesheet" href="booking.css">
+</head>
+
+<body>
+
+    <header>
+
+        <h1>GradPath</h1>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+            <a href="mentor-hub.html">Mentor Hub</a>
+            <a href="booking.html" class="active">Interview Booking</a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <section class="booking-container">
+
+            <h2>Interview Slot Booking Matrix</h2>
+
+            <p class="subtitle">
+                Select an available mentor and reserve a 30-minute interview slot.
+            </p>
+
+            <div class="mentor-selection">
+
+                <label for="mentor">
+
+                    Select Mentor
+
+                </label>
+
+                <select id="mentor">
+
+                    <option value="">Choose Mentor</option>
+
+                    <option>Sarah Ahmed (Software Engineer)</option>
+
+                    <option>Tanvir Hasan (Data Scientist)</option>
+
+                    <option>Nusrat Jahan (UI/UX Designer)</option>
+
+                </select>
+
+            </div>
+
+            <div class="calendar-card">
+
+                <h3>Available Slots</h3>
+
+                <div class="slot-grid">
+
+                    <button class="slot">9:00 AM</button>
+
+                    <button class="slot">9:30 AM</button>
+
+                    <button class="slot">10:00 AM</button>
+
+                    <button class="slot">10:30 AM</button>
+
+                    <button class="slot">11:00 AM</button>
+
+                    <button class="slot">11:30 AM</button>
+
+                    <button class="slot">12:00 PM</button>
+
+                    <button class="slot">12:30 PM</button>
+
+                    <button class="slot">2:00 PM</button>
+
+                    <button class="slot">2:30 PM</button>
+
+                    <button class="slot">3:00 PM</button>
+
+                    <button class="slot">3:30 PM</button>
+
+                </div>
+
+            </div>
+
+            <div class="selected-slot">
+
+                <h3>Selected Slot</h3>
+
+                <p id="selectedText">
+                    No slot selected.
+                </p>
+
+                <button id="bookBtn">
+
+                    Book Interview
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+<script src="booking.js"></script>
+</body>
+
+</html>
