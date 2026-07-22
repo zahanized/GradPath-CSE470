@@ -6,6 +6,15 @@ const app = express();
 const PORT = 8000;
 
 app.use(express.json());
+
+app.get('/question-vault.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'Company-Specific Question.html'));
+});
+
+app.get('/question-vault', (req, res) => {
+  res.redirect('/question-vault.html');
+});
+git status
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/api/verify-alumni', (req, res) => {
